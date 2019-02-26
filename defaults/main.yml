@@ -1,0 +1,26 @@
+---
+# defaults file for nginx_loadbalancer_ssl
+
+ssl_cert_path: /etc/ssl/private
+ssl_cert_cipher: aes256
+ssl_cert_size: 2048
+ssl_cert_provider: selfsigned
+ssl_cert_file: server.crt
+ssl_csr_key: server.csr
+ssl_pub_key: server.pub.pem
+ssl_priv_key: server.priv.pem
+ssl_priv_pass: "S3crE7!"
+
+cert_org_name: Ansible
+cert_country: FR
+cert_email: jdoe@ansible.com
+cert_common_name: "{{ server_hostname }}"
+
+cert_pass_file: /etc/nginx/server.pass
+
+nginx_service_user: nginx
+nginx_service_group: nginx
+
+package:
+  - openssl
+  - python-openssl

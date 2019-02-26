@@ -1,0 +1,17 @@
+---
+
+- name: Feed the password to Nginx
+  lineinfile:
+    path: "{{ cert_pass_file }}"
+    line: "{{ ssl_priv_pass }}"
+    owner: "{{ nginx_service_user }}"
+    group: "{{ nginx_service_group }}"
+    mode: 0600
+    state: present
+    create: yes
+
+- name: Set up secure load balancing
+  template:
+    src: loadbalancer.conf
+    dest: /etc/nginx/conf.d/loadbalancer.conf
+  notify: restart nginx

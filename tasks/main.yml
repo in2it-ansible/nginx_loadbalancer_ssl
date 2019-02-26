@@ -1,0 +1,15 @@
+---
+# tasks file for nginx_loadbalancer_ssl
+
+- name: Setup loadbalancer
+  import_role:
+    name: dragonbe.nginx_loadbalancer
+
+- name: Prepare for SSL generation
+  import_tasks: prepare.yml
+
+- name: Generate SSL Certificates
+  import_tasks: generate.yml
+
+- name: Configure Nginx to use SSL
+  import_tasks: configure_nginx.yml

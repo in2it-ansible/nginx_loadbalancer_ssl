@@ -1,0 +1,32 @@
+---
+
+- name: Create SSL Private Key
+  openssl_privatekey:
+    path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_priv_key }}"
+    cipher: "{{ ssl_cert_cipher }}"
+    size: "{{ ssl_cert_size }}"
+    passphrase: "{{ ssl_priv_pass }}"
+
+- name: Create SSL Public Key from Private Key
+  openssl_publickey:
+    path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_pub_key }}"
+    privatekey_path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_priv_key }}"
+    privatekey_passphrase: "{{ ssl_priv_pass }}"
+
+- name: Generate SSL CSR
+  openssl_csr:
+    path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_csr_key }}"
+    privatekey_path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_priv_key }}"
+    privatekey_passphrase: "{{ ssl_priv_pass }}"
+    country_name: "{{ cert_country }}"
+    organization_name: "{{ cert_org_name }}"
+    email_address: "{{ cert_email }}"
+    common_name: "{{ cert_common_name }}"
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_cert_file }}"
+    privatekey_path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_priv_key }}"
+    privatekey_passphrase: "{{ ssl_priv_pass }}"
+    csr_path: "{{ ssl_cert_path }}/{{ server_hostname }}/{{ ssl_csr_key }}"
+    provider: "{{ ssl_cert_provider }}"

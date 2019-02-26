@@ -1,0 +1,24 @@
+---
+
+- name: Check to see if openssl is installed
+  apt:
+    name: "{{ package }}"
+    state: present
+  register: openssl_install
+  until: openssl_install is success
+  retries: 3
+  delay: 2
+  tags:
+    - ssl-cert
+    - preparation
+
+- name: Create the certificate directory
+  file:
+    name: "{{ ssl_cert_path }}/{{ server_hostname }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - ssl-cert
+    - preparation
