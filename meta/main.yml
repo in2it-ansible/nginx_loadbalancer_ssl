@@ -11,7 +11,7 @@ galaxy_info:
         - stretch
   galaxy_tags:
     - nginx
-    - load-balancer
+    - loadbalancer
     - ssl
     - openssl
     - selfsigned
